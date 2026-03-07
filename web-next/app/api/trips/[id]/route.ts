@@ -1,31 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const base =
-      process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ||
-      "http://localhost:4000";
+  const { id } = await context.params;
 
-    const upstreamUrl = `${base}/trips/${params.id}`;
+  try {
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE!;
     const cookie = req.headers.get("cookie") || "";
 
-    const r = await fetch(upstreamUrl, {
+    const res = await fetch(`${apiBase}/trips/${id}`, {
       method: "GET",
       headers: { cookie },
+      credentials: "include",
       cache: "no-store",
     });
 
-    const text = await r.text();
-    return new NextResponse(text, {
-      status: r.status,
-      headers: { "Content-Type": r.headers.get("content-type") || "application/json" },
-    });
-  } catch (err: any) {
+    const data = await res.json().catch(() => ({}));
+
+    return NextResponse.json(data, { status: res.status });
+  } catch (e: any) {
     return NextResponse.json(
-      { message: "Next /api/trips/[id] crashed", details: err?.message || String(err) },
+      { message: "Failed to load trip", details: String(e) },
       { status: 500 }
     );
   }
