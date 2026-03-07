@@ -273,7 +273,13 @@ app.post("/auth/login", async (req, res) => {
     const refreshToken = signRefreshToken(payload);
 
     setAuthCookies(res, { accessToken, refreshToken });
-    return res.json({ ok: true, user: payload });
+
+    return res.json({
+      ok: true,
+      user: payload,
+      accessToken,
+      refreshToken
+    });
   } catch (e) {
     return res.status(500).json({ message: "Server error", details: String(e) });
   }
