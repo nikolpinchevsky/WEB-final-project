@@ -2,67 +2,89 @@
 
 ## Authors
 - Nikol Pinchevsky
-- [Partner Name]
-
-## Project Overview
-Afeka Trips 2026 is a full-stack web application developed as a final project for the Web course.
-
-The system allows users to:
-- Register and log in securely
-- Generate travel routes based on location, trip type, and trip duration
-- View the generated route on an interactive map
-- Receive a real weather forecast for the next 3 days
-- Save approved trips to the database
-- View saved trip history with updated weather forecast
-
-The project is built using two servers, as required:
-- **Express server** – authentication, JWT, cookies, database, trip APIs
-- **Next.js server** – frontend, middleware protection, pages, map display
 
 ---
 
-## Main Features
+# Project Overview
 
-### Authentication
+Afeka Trips 2026 is a full-stack web application developed as a final project for the Web Development course.
+
+The system allows users to generate travel routes based on location, trip type, and trip duration, and then view them on an interactive map with weather information.
+
+The application supports user authentication and allows saving trips to a database and viewing them later.
+
+The system is built using two servers as required in the project instructions:
+
+- **Express Server** – Handles authentication, database operations, and API endpoints.
+- **Next.js Server** – Handles the frontend interface and protected pages.
+
+---
+
+# Main Features
+
+## Authentication
 - User registration and login
-- Password hashing with `bcrypt`
-- JWT-based authentication
-- Access token + refresh token stored in cookies
-- Silent token refresh using middleware
+- Password hashing using **bcrypt**
+- JWT based authentication
+- Access token and refresh token stored in cookies
+- Middleware protection for private pages
+- Silent token refresh
 
-### Planner Page
-The user selects:
+---
+
+## Planner Page
+
+The user can generate a new trip by selecting:
+
 - Country / city / location
-- Trip type: bike or trek
+- Trip type (bike or trek)
 - Number of days
 
-The system generates a trip and displays:
+The system then generates a trip and displays:
+
 - Route summary
-- Map with route
-- Weather forecast
+- Interactive map with the generated route
+- Weather forecast for the next days
 - Destination image
-
-### Real Route Generation
-Routes are generated as realistic routes on roads / trails using routing services, and not as straight lines between points.
-
-### Save Trip
-After the user reviews and approves the generated result, the trip can be saved to MongoDB.
-
-### History Page
-Users can view previously saved trips and open full trip details, including updated weather forecast.
 
 ---
 
-## Technologies Used
+## Real Route Generation
 
-### Frontend
+Routes are generated using routing services based on real roads and trails, rather than simple straight lines between points.
+
+---
+
+## Save Trip
+
+After reviewing the generated route, the user can approve and save the trip.
+
+Saved trips are stored in **MongoDB**.
+
+---
+
+## History Page
+
+Users can view their previously saved trips.
+
+Each trip can be opened to see full details including an updated weather forecast.
+
+---
+
+# Technologies Used
+
+## Frontend
+
 - Next.js
 - React
 - TypeScript
-- Leaflet
+- Leaflet (map rendering)
 - Next.js Middleware
 
-### Backend
+---
+
+## Backend
+
 - Node.js
 - Express.js
 - MongoDB
@@ -71,11 +93,14 @@ Users can view previously saved trips and open full trip details, including upda
 - cookie-parser
 - cors
 
-### External APIs / Services
-- Nominatim / OpenStreetMap – geocoding
-- OSRM – route generation
-- Open-Meteo – weather forecast
-- Image service – destination image
+---
+
+## External APIs / Services
+
+- **Nominatim / OpenStreetMap** – location geocoding
+- **OSRM** – route generation
+- **Open-Meteo** – weather forecast
+- **Image service** – destination image
 
 ---
 
@@ -96,3 +121,125 @@ afeka-trips-2026
     ├── middleware.ts
     ├── package.json
     └── .env.local
+
+
+
+---
+
+# How to Run the Project Locally
+
+## 1. Clone the repository
+    git clone https://github.com/nikolpinchevsky/WEB-final-project.git
+
+## 2. Install backend dependencies
+    cd server-express
+    npm install
+
+
+
+---
+
+## 3. Create backend environment file
+
+Create `.env` inside `server-express`
+
+Example:
+PORT=4000
+CLIENT_ORIGIN=http://localhost:3000
+
+MONGO_URI=your_mongo_connection_string
+DB_NAME=your_database_name
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+ACCESS_TTL=15m
+REFRESH_TTL=1d
+NODE_ENV=development
+
+
+
+---
+
+## 4. Run backend server
+npm run dev
+or
+npm start
+
+
+
+---
+
+## 5. Install frontend dependencies
+cd ../web-next
+npm install
+
+
+
+---
+
+## 6. Create frontend environment file
+
+Create `.env.local` inside `web-next`
+
+Example:
+NEXT_PUBLIC_API_BASE=http://localhost:4000
+
+
+
+---
+
+## 7. Run frontend
+npm run dev
+
+The application will run at:
+http://localhost:3000
+
+
+
+
+---
+
+# Live Demo
+
+Frontend:
+(add frontend deployment link here)
+
+Backend API:
+(add backend deployment link here)
+
+
+
+
+---
+
+# Screenshots
+
+Planner Page
+
+![Planner](screenshots/planner.png)
+
+Map View
+
+![Map](screenshots/map.png)
+
+History Page
+
+![History](screenshots/history.png)
+
+---
+
+# Known Issues
+
+- Route generation depends on external routing services.
+- Weather forecast accuracy depends on external APIs.
+- Some locations may not have detailed routing data.
+
+---
+
+# Future Improvements
+
+Possible improvements for the system:
+
+- Support for more trip types
+- Better route optimization
+- Improved mobile interface
+- Integration with additional weather services
