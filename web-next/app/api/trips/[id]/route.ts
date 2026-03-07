@@ -7,7 +7,7 @@ export async function GET(
   const { id } = await context.params;
 
   try {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE!;
+    const apiBase = process.env.NEXT_PUBLIC_API_URL!;
     const cookie = req.headers.get("cookie") || "";
 
     const res = await fetch(`${apiBase}/trips/${id}`, {

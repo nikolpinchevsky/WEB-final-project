@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 function getBaseUrl() {
-  const fromEnv = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+  const fromEnv = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
   return fromEnv || "http://localhost:4000";
 }
 

@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const base =
-      process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ||
+      process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
       "http://localhost:4000";
 
     const upstreamUrl = `${base}/trips/save`;

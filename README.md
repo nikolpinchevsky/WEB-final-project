@@ -181,7 +181,7 @@ npm install
 Create `.env.local` inside `web-next`
 
 Example:
-NEXT_PUBLIC_API_BASE=http://localhost:4000
+NEXT_PUBLIC_API_URL=http://localhost:4000
 
 
 

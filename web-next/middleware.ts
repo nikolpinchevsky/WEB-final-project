@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PROTECTED = ["/planner", "/history"]; 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE!;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
