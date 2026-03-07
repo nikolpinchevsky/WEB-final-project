@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WEB Final Project – Afeka Trips 2026
 
-## Getting Started
+## Authors
+- Nikol Pinchevsky
+- [Partner Name]
 
-First, run the development server:
+## Project Overview
+Afeka Trips 2026 is a full-stack web application developed as a final project for the Web course.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The system allows users to:
+- Register and log in securely
+- Generate travel routes based on location, trip type, and trip duration
+- View the generated route on an interactive map
+- Receive a real weather forecast for the next 3 days
+- Save approved trips to the database
+- View saved trip history with updated weather forecast
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The project is built using two servers, as required:
+- **Express server** – authentication, JWT, cookies, database, trip APIs
+- **Next.js server** – frontend, middleware protection, pages, map display
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Main Features
 
-## Learn More
+### Authentication
+- User registration and login
+- Password hashing with `bcrypt`
+- JWT-based authentication
+- Access token + refresh token stored in cookies
+- Silent token refresh using middleware
 
-To learn more about Next.js, take a look at the following resources:
+### Planner Page
+The user selects:
+- Country / city / location
+- Trip type: bike or trek
+- Number of days
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The system generates a trip and displays:
+- Route summary
+- Map with route
+- Weather forecast
+- Destination image
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Real Route Generation
+Routes are generated as realistic routes on roads / trails using routing services, and not as straight lines between points.
 
-## Deploy on Vercel
+### Save Trip
+After the user reviews and approves the generated result, the trip can be saved to MongoDB.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### History Page
+Users can view previously saved trips and open full trip details, including updated weather forecast.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Technologies Used
+
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Leaflet
+- Next.js Middleware
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- JWT
+- bcrypt
+- cookie-parser
+- cors
+
+### External APIs / Services
+- Nominatim / OpenStreetMap – geocoding
+- OSRM – route generation
+- Open-Meteo – weather forecast
+- Image service – destination image
+
+---
+
+## Project Structure
+
+```text
+afeka-trips-2026
+│
+├── server-express
+│   ├── index.js
+│   ├── package.json
+│   └── .env
+│
+└── web-next
+    ├── app
+    ├── components
+    ├── lib
+    ├── middleware.ts
+    ├── package.json
+    └── .env.local
