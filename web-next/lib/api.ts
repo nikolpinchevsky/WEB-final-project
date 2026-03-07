@@ -1,7 +1,5 @@
-const API = process.env.NEXT_PUBLIC_API_BASE!;
-
 export async function apiFetch(path: string, init: RequestInit = {}) {
-  const res = await fetch(`${API}${path}`, {
+  const res = await fetch(`/api${path}`, {
     ...init,
     credentials: "include",
     headers: {
