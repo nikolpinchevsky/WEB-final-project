@@ -201,11 +201,10 @@ http://localhost:3000
 # Live Demo
 
 Frontend:
-(add frontend deployment link here)
+https://web-final-frontend-nx9p.onrender.com
 
 Backend API:
-(add backend deployment link here)
-
+https://web-final-project-a3f2.onrender.com
 
 
 
