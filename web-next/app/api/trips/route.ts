@@ -1,28 +1,63 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const base =
-      process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ||
-      "http://localhost:4000";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    const upstreamUrl = `${base}/trips`;
-    const cookie = req.headers.get("cookie") || "";
+    if (!apiUrl) {
+      return NextResponse.json(
+        { ok: false, message: "NEXT_PUBLIC_API_URL is missing" },
+        { status: 500 }
+      );
+    }
 
-    const r = await fetch(upstreamUrl, {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("access_token")?.value;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (accessToken) {
+      headers["Cookie"] = `access_token=${accessToken}`;
+    }
+
+    const r = await fetch(`${apiUrl}/trips`, {
       method: "GET",
-      headers: { cookie },
+      headers,
       cache: "no-store",
     });
 
-    const text = await r.text();
-    return new NextResponse(text, {
-      status: r.status,
-      headers: { "Content-Type": r.headers.get("content-type") || "application/json" },
-    });
-  } catch (err: any) {
+    const raw = await r.text();
+
+    let data: any = {};
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch {
+      data = { raw };
+    }
+
+    if (!r.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: data?.message || "Backend trips failed",
+          backendStatus: r.status,
+          backendResponse: data,
+        },
+        { status: r.status }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
     return NextResponse.json(
-      { message: "Next /api/trips crashed", details: err?.message || String(err) },
+      {
+        ok: false,
+        message: "Next /api/trips crashed",
+        error: String(error),
+      },
       { status: 500 }
     );
   }
