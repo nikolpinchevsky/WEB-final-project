@@ -259,15 +259,19 @@ https://web-final-project-a3f2.onrender.com
 
 # Screenshots
 
-### Planner Page
+### Planner Page 
 
-![Planner](screenshots/planner.png)
+![Planner Step 1](screenshots/planner1.png)
+
+![Planner Step 2](screenshots/planner2.png)
+
+![Planner Step 3](screenshots/planner3.png)
 
 ### Map View
 
 ![Map](screenshots/map.png)
 
-### History Page
+### History
 
 ![History](screenshots/history.png)
 
