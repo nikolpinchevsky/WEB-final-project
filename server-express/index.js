@@ -238,7 +238,7 @@ function buildTrip({ location, tripType, days }) {
 }
 
 // ---------- auth routes ----------
-app.post("/auth/register", async (req, res) => {
+app.post("/auth/signup", async (req, res) => {
   try {
     const { email, name, password } = req.body || {};
     if (!email || !name || !password) return res.status(400).json({ message: "Missing fields" });
