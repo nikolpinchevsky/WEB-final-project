@@ -273,8 +273,8 @@ https://web-final-project-a3f2.onrender.com
 
 ### History
 
-![History](screenshots/history.png)
-
+![History](screenshots/history1.png)
+![History](screenshots/history2.png)
 ---
 
 # Known Issues
