@@ -61,3 +61,5 @@ Thumbs.db
 # project folders
 server-express/node_modules
 web-next/node_modules
+
+.env
