@@ -33,6 +33,12 @@ The system architecture follows the project requirements and is built using **tw
 - Known Issues
 - Future Improvements
 
+
+## Project Presentation
+
+📄 [View Slides (PDF)](./docs/Afeka-Trips-2026-Presentation.pdf)
+
+📥 [Download PPTX](./docs/Afeka-Trips-2026-Presentation.pptx)
 ---
 
 # Main Features
@@ -51,6 +57,20 @@ Features include:
 - Protected pages using **Next.js Middleware**
 - Silent token refresh mechanism
 
+### Authentication Flow
+
+- User logs in → server creates access + refresh tokens
+- Tokens are stored in HTTP-only cookies
+- Access token is used for protected routes
+- If expired → refresh token generates a new one automatically
+
+## Middleware Protection
+
+The Next.js middleware protects restricted pages such as the planner and history pages.
+
+- Checks if access token exists
+- If missing → tries refresh using refresh token
+- If still invalid → redirects user to login
 ---
 
 ## Planner Page
@@ -122,6 +142,14 @@ Responsible for:
 - Database operations
 - Trip storage
 - Business logic
+
+The project strictly follows the course requirement of using two separate servers:
+- Express server (backend logic and authentication)
+- Next.js server (frontend and protected routing)
+
+### Architecture Flow
+
+User → Next.js (Frontend) → Express (Backend) → MongoDB
 
 ---
 
@@ -279,9 +307,9 @@ https://web-final-project-a3f2.onrender.com
 
 # Known Issues
 
-- Route generation depends on external routing services.
-- Weather forecast accuracy depends on external APIs.
-- Some locations may not have detailed routing data.
+- Route generation depends on external services (OSRM) and may occasionally fail.
+- Weather data depends on third-party APIs and may have slight delays.
+- In rare cases, expired tokens may require the user to log in again.
 
 ---
 
