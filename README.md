@@ -312,21 +312,5 @@ http://localhost:4000
 
 ![History](screenshots/history2.png)
 ![History](screenshots/history1.png)
----
 
-# Known Issues
 
-- Route generation depends on external services (OSRM) and may occasionally fail.
-- Weather data depends on third-party APIs and may have slight delays.
-- In rare cases, expired tokens may require the user to log in again.
-
----
-
-# Future Improvements
-
-Possible future improvements:
-
-- Support for additional trip types
-- Improved route optimization
-- Better mobile interface
-- Integration with additional weather services
