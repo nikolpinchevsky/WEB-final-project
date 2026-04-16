@@ -6,33 +6,35 @@ import Link from "next/link";
 
 export default function SignupPage() {
   const r = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [err, setErr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState(""); // שם פרטי
+  const [email, setEmail] = useState(""); // אימייל
+  const [password, setPassword] = useState(""); // סיסמה
+  const [err, setErr] = useState<string | null>(null); // שגיאות אפשריות בתהליך ההרשמה
+  const [loading, setLoading] = useState(false); // מצב טעינה בזמן שליחת הטופס
 
+  // יצירת משתמש חדש
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setErr(null);
-    setLoading(true);
+    e.preventDefault(); 
+    setErr(null); 
+    setLoading(true); 
 
-    try {
+    try { // קריאה לשרת 
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
-
-      if (!res.ok) {
+      
+      // אם השרת מחזיר שגיאה, קריאת הודעת השגיאה מהתגובה והצגתה למשתמש
+      if (!res.ok) { 
         const j = await res.json().catch(() => ({}));
         setErr(j.message || "Sign up failed");
         setLoading(false);
         return;
       }
 
-      r.push("/login");
-    } catch (error) {
+      r.push("/login"); // הרשמה צלחה ומעבר למסך התחברות
+    } catch (error) { // טיפול בשגיאת רשת או שגיאה בלתי צפויה
       setErr("Sign up failed");
       setLoading(false);
     }

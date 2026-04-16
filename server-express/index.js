@@ -15,7 +15,6 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://web-final-frontend-nx9p.onrender.com"
   ],
   credentials: true
 }));

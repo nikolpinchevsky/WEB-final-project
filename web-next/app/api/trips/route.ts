@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,20 +11,14 @@ export async function GET() {
       );
     }
 
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("access_token")?.value;
-
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    if (accessToken) {
-      headers["Cookie"] = `access_token=${accessToken}`;
-    }
+    const cookieHeader = req.headers.get("cookie") || "";
 
     const r = await fetch(`${apiUrl}/trips`, {
       method: "GET",
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+        cookie: cookieHeader,
+      },
       cache: "no-store",
     });
 
@@ -38,19 +31,7 @@ export async function GET() {
       data = { raw };
     }
 
-    if (!r.ok) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: data?.message || "Backend trips failed",
-          backendStatus: r.status,
-          backendResponse: data,
-        },
-        { status: r.status }
-      );
-    }
-
-    return NextResponse.json(data);
+    return NextResponse.json(data, { status: r.status });
   } catch (error) {
     return NextResponse.json(
       {

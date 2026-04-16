@@ -1,38 +1,41 @@
-"use client";
+"use client"; 
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react"; // מאפשר לשמור משתנים לאורך זמן
+import { useRouter } from "next/navigation"; // ניווט בין עמודים דרך הקוד
 import Link from "next/link";
 
 export default function LoginPage() {
-  const r = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [err, setErr] = useState<string | null>(null);
+  const r = useRouter(); // פונקציית הניווט
+  const [email, setEmail] = useState(""); // שמירת שם משתמש 
+  const [password, setPassword] = useState(""); // שמירת סיסמה
+  const [err, setErr] = useState<string | null>(null); // שמירת הודעת שגיאה
 
+  // התחברות למשתמש קיים
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setErr(null);
+    e.preventDefault(); 
+    setErr(null); 
 
-    try {
+  // ניסיון התחברות לשרת עם פרטי המשתמש
+    try { 
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      if (!res.ok) {
+      if (!res.ok) { 
         const j = await res.json().catch(() => ({}));
         setErr(j.message || "Login failed");
         return;
       }
 
-      r.push("/");
-    } catch (error) {
+      r.push("/"); // התחברות צלחה ומעבר למסך בית
+    } catch (error) { // טיפול בשגיאת רשת או שגיאה בלתי צפויה
       setErr("Login failed");
     }
   }
 
+    // יצירת הטופס
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
       <div style={{ maxWidth: 420, width: "100%", padding: "40px 20px" }}>

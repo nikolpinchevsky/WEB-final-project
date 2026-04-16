@@ -275,13 +275,13 @@ http://localhost:3000
 
 # Live Demo
 
-Frontend:
+Currently the project is configured to run locally.
 
-https://web-final-frontend-nx9p.onrender.com
+Frontend:
+http://localhost:3000
 
 Backend API:
-
-https://web-final-project-a3f2.onrender.com
+http://localhost:4000
 
 ---
 

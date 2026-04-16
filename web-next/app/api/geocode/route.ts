@@ -8,7 +8,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Missing q" }, { status: 400 });
   }
 
-  // Nominatim: free geocoding (OpenStreetMap)
   const url =
     `https://nominatim.openstreetmap.org/search` +
     `?format=json&limit=1&q=${encodeURIComponent(q)}`;
@@ -23,7 +22,6 @@ export async function GET(req: Request) {
   if (!res.ok) {
     return NextResponse.json({ message: "Geocoding failed" }, { status: 500 });
   }
-
   const data = await res.json();
   if (!Array.isArray(data) || data.length === 0) {
     return NextResponse.json({ message: "Location not found" }, { status: 404 });

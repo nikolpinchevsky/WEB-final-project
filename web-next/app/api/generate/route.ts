@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-
+ 
 function getBaseUrl() {
   const fromEnv = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
   return fromEnv || "http://localhost:4000";
@@ -8,8 +8,8 @@ function getBaseUrl() {
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
+    
     const base = getBaseUrl();
-
     const upstreamUrl = `${base}/trips/generate`;
 
     const cookie = req.headers.get("cookie") || "";
@@ -18,15 +18,14 @@ export async function POST(req: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(cookie ? { cookie } : {}),
+        ...(cookie ? { cookie } : {}), 
       },
       body: JSON.stringify(body),
-      cache: "no-store",
+      cache: "no-store", 
     });
 
     const contentType = r.headers.get("content-type") || "application/json";
     const raw = await r.text();
-
     if (contentType.includes("application/json")) {
       try {
         const parsed = raw ? JSON.parse(raw) : {};
@@ -37,9 +36,9 @@ export async function POST(req: Request) {
             error: "Upstream returned invalid JSON",
             upstreamUrl,
             status: r.status,
-            raw: raw.slice(0, 300),
+            raw: raw.slice(0, 300), 
           },
-          { status: 502 }
+          { status: 502 } 
         );
       }
     }

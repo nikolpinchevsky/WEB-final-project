@@ -4,24 +4,26 @@ import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
+// טעינת מפה בצד המשתמש
 const MapView = dynamic(() => import("./map-view"), { ssr: false });
 
 type TripType = "bike" | "trek";
 type LatLng = { lat: number; lng: number };
 
 export default function PlannerPage() {
-  const [location, setLocation] = useState("Israel");
+  // קלט מהמשתמש
+  const [location, setLocation] = useState("Israel"); // איפה מטיילים
   const [tripType, setTripType] = useState<TripType>("bike");
   const [days, setDays] = useState(2);
-
+  // תהליך היצירה
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-
+  // תהליך השמירה
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
-
+  //API הבאת תמונה מחיצוני
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
 
@@ -31,6 +33,8 @@ export default function PlannerPage() {
     return `https://source.unsplash.com/800x800/?${q}`;
   }, [location]);
 
+  // חישוב גבולות המפה
+  // מציאת קו רוחב ואורך מינמלי ומקסימלי בין כל הנקודות כדי להגדיר את גבולות המפה
   const boundsText = useMemo(() => {
     if (!result?.geometry?.length) return null;
     const pts: LatLng[] = result.geometry;
@@ -43,6 +47,7 @@ export default function PlannerPage() {
     return `Bounds: lat ${minLat}–${maxLat}, lng ${minLng}–${maxLng}`;
   }, [result]);
 
+  // שליחת בקשה ליצרת מסלול
   async function onGenerate(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -50,7 +55,7 @@ export default function PlannerPage() {
     setResult(null);
     setSavedId(null);
     setSaveError(null);
-
+    // שולח את כל הנתונים של יצירת טיול
     const r = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -83,15 +88,16 @@ export default function PlannerPage() {
     setLoading(false);
   }
 
+  // עיבוד ושמירת המסלול בדאטה בייס
   async function onApproveAndSave() {
-    if (!result) return;
-    setSaving(true);
-    setSaveError(null);
+    if (!result) return; // אין תוצאה לשמור
+    setSaving(true);  // מתחיל תהליך שמירה
+    setSaveError(null); 
 
-    const payload = { ...result };
-    delete payload.forecast;
-
-    if (!payload.location && payload.routeGeoJson) {
+    const payload = { ...result }; // תחזית שנשמרה
+    delete payload.forecast; // מחיקת היסטוריית מזג אוויר
+    // Reverse Geocoding
+    if (!payload.location && payload.routeGeoJson) { 
       const coords = payload.routeGeoJson?.features?.[0]?.geometry?.coordinates;
 
       if (Array.isArray(coords) && coords.length > 0) {
@@ -108,13 +114,15 @@ export default function PlannerPage() {
       }
     }
 
+    // API Call לשמירת המסלול
     const r = await fetch("/api/trips/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include", 
       body: JSON.stringify(payload),
     });
-
+    
+     // טיפול בתגובה מהשרת והחזרה לעמוד ההתחברות
     if (r.status === 401) {
       setSaving(false);
       window.location.href = "/login?next=/planner";
