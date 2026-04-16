@@ -39,6 +39,14 @@ The system architecture follows the project requirements and is built using **tw
 📄 [View Slides (PDF)](./docs/Afeka-Trips-2026-Presentation.pdf)
 
 📥 [Download PPTX](./docs/Afeka-Trips-2026-Presentation.pptx)
+
+---
+
+## 🎥 Demo Video
+
+Watch our project demo here:
+👉 https://drive.google.com/file/d/1oee0w1Ik-G3_PQF-4VHPcyK992XJAhgO/view?usp=sharing
+
 ---
 
 # Main Features
